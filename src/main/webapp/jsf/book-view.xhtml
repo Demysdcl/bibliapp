@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="page-title"> - Livros </ui:define>
+
+    <ui:define name="page-content">
+
+        <h:body>
+            <div class="ui-g">
+
+                <h:form id="formData">
+
+                    <p:dataTable var="book" value="#{bookController.list}" rows="10"
+                                 paginator="true" id="tblData"
+                                 style="text-align:center"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" >
+
+                        <f:facet name="header">
+                            Lista de Livros
+
+                            <h:commandLink style="float:right;" >
+                                <p:graphicImage value="/css/img/excel.png" width="16" />
+                                <p:outputLabel value="Excel" />
+                                <p:dataExporter type="xls" target="tblData"
+                                                fileName="Lista de Livros"/>
+                            </h:commandLink>
+
+                            <p:spacer width="10" height="5" style="float:right" />
+
+                            <h:commandLink style="float:right;" >
+                                <p:graphicImage value="/css/img/pdf.png" width="16" />
+                                <p:outputLabel value="PDF" />
+                                <p:dataExporter type="pdf" target="tblData"
+                                                fileName="Lista de livros"/>
+                            </h:commandLink>
+
+                            <p:spacer width="10" height="5" style="float:right" />
+
+                            <p:commandLink type="button"
+                                           action="#{bookController.prepareToSave()}"
+                                           oncomplete="PF('formDialog').show()" update="@form"
+                                           style="float:right; height:22px">
+                                <p:graphicImage value="/css/img/add-icon.png" />
+                                <p:outputLabel value="Adicionar" />
+
+                            </p:commandLink>
+
+                        </f:facet>
+
+                        <p:column headerText="ID" sortBy="#{book.id}">
+                            <h:outputText value="#{book.id}" />
+                        </p:column>
+
+                        <p:column headerText="Titulo" sortBy="#{book.title}">
+                            <h:outputText value="#{book.title}" />
+                        </p:column>
+
+                        <p:column headerText="Autor" sortBy="#{book.author.firstName}">
+                            <h:outputText value="#{book.author.firstName}" />
+                        </p:column>
+
+                        <p:column exportable="false" headerText="Excluir"
+                                  style="width:60px">
+                            <p:commandLink action="#{bookController.delete}"
+                                           update="@form">
+                                <p:graphicImage value="/css/img/eraser.png" />
+                                <p:confirm header="Confirmação"
+                                           message="Deseja Realmente Excluir?"
+                                           icon="ui-icon-alert" />
+                                <f:setPropertyActionListener value="#{book}"
+                                                             target="#{bookController.entity}" />
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <ui:include src="/WEB-INF/fragments/question.xhtml" />  
+
+                    <ui:include src="/WEB-INF/fragments/form_book.xhtml" /> 
+
+                </h:form>
+
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>

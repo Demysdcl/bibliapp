@@ -1,0 +1,4 @@
+## YAML Template.
+---
+server:
+    port: 5050

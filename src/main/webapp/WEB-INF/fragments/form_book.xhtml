@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="viewForm">
+        <p:dialog widgetVar="formDialog" closeOnEscape="true" modal="true" id="viewDialog"
+                  header="Novo Cadastro" style="width:100%;font-size:15px">
+
+            <p:panelGrid columns="2" style="width:100%" id="pnlGrid">
+
+                <p:outputLabel value="Título: " for="firstName" />
+                <p:inputText id="firstName" value="#{bookController.entity.title}"
+                             style="width:100%" />
+
+                <p:outputLabel value="ID do Autor" for="lastName" />
+                <p:inputText id="lastName" value="#{bookController.entity.authorId}"
+                             style="width:100%" />
+            </p:panelGrid>
+            <p:commandButton value="Salvar" action="#{bookController.save()}" update=":formData:tblData pnlGrid"/>
+        </p:dialog>
+    </h:form>
+</ui:composition>
